@@ -111,6 +111,7 @@
         border-radius: 8px;
         text-decoration: none;
         display: inline-block;
+        cursor: pointer;
     }
 
     .btn:hover {
@@ -142,24 +143,42 @@
         <img src="https://i.imgur.com/YXqY8gD.png">
         <h3>iPhone 11 Kılıf</h3>
         <div class="price">4 AZN</div>
-        <a href="cart.html" class="btn">Səbətə at</a>
+        <a class="btn" onclick="addToCart('iPhone 11 Kılıf', 4, 'https://i.imgur.com/YXqY8gD.png')">Səbətə at</a>
     </div>
 
     <div class="item">
         <img src="https://i.imgur.com/5b9Vjfw.png">
         <h3>Samsung A52</h3>
         <div class="price">3 AZN</div>
-        <a href="cart.html" class="btn">Səbətə at</a>
+        <a class="btn" onclick="addToCart('Samsung A52', 3, 'https://i.imgur.com/5b9Vjfw.png')">Səbətə at</a>
     </div>
 
     <div class="item">
         <img src="https://i.imgur.com/4bfn9aN.png">
         <h3>Redmi Note 10</h3>
         <div class="price">3.50 AZN</div>
-        <a href="cart.html" class="btn">Səbətə at</a>
+        <a class="btn" onclick="addToCart('Redmi Note 10', 3.50, 'https://i.imgur.com/4bfn9aN.png')">Səbətə at</a>
     </div>
 
 </div>
+
+
+<!-- REAL SƏBƏT SİSTEMİ -->
+<script>
+function addToCart(name, price, img) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart.push({
+        name: name,
+        price: price,
+        img: img
+    });
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert("Məhsul səbətə əlavə olundu! 🛒");
+}
+</script>
 
 </body>
 </html>
