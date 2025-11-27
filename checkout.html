@@ -173,11 +173,14 @@ form.addEventListener('submit', function(e) {
   if (email) {
     orderText += `Email: ${email}%0A`;
   }
-  // Send order via WhatsApp or mailto
-  // Here we open WhatsApp message (if phone installed) otherwise mailto link
-  const encodedText = encodeURI(orderText);
-  const whatsappUrl = `https://wa.me/?text=${encodedText}`;
-  window.open(whatsappUrl, '_blank');
+  // Send order via Instagram DM. We build an ig.me link using the business Instagram handle
+  // and append the order summary as the pre‑filled message. See documentation on ig.me links
+  // for details on formatting: https://ig.me/yourusername?text=Your%20custom%20message
+  const encodedText = encodeURIComponent(orderText);
+  // Extract just the username from the provided Instagram URL. Here we hardcode the handle
+  // kabroshopbaku as supplied by the business owner.
+  const igDmUrl = `https://ig.me/kabroshopbaku?text=${encodedText}`;
+  window.open(igDmUrl, '_blank');
   // Show success message
   document.getElementById('order-success').style.display = 'block';
   // Clear cart and reset form
