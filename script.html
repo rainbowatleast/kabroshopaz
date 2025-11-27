@@ -1,0 +1,151 @@
+/* =========================================
+   MƏHSUL BAZASI (Burada dəyişiklik et)
+   ========================================= */
+const products = [
+    {
+        id: 1,
+        name: "iPhone 13 Şəffaf Silikon Kabro",
+        category: "iPhone",
+        price: 12.00,
+        image: "https://m.media-amazon.com/images/I/61M5w+2+ZEL.jpg",
+        desc: "Zərbəyə davamlı, saralmayan şəffaf material."
+    },
+    {
+        id: 2,
+        name: "Samsung S22 Ultra Qara Kabro",
+        category: "Samsung",
+        price: 15.50,
+        image: "https://m.media-amazon.com/images/I/71J8-sM-kRL.jpg",
+        desc: "Premium hissiyat, sürüşməyən səth."
+    },
+    {
+        id: 3,
+        name: "AirPods Pro 2 Qoruyucu",
+        category: "Aksesuar",
+        price: 9.00,
+        image: "https://m.media-amazon.com/images/I/61s-t+vJvJL.jpg",
+        desc: "Qarmaqlı, rəngli silikon qutu."
+    },
+    {
+        id: 4,
+        name: "Redmi Note 11 Mavi Kabro",
+        category: "Xiaomi",
+        price: 8.00,
+        image: "https://m.media-amazon.com/images/I/71zW-x+eeyL.jpg",
+        desc: "Nazik dizayn, tam qoruma."
+    }
+];
+
+/* =========================================
+   SİSTEM KODLARI (Dəyməyə ehtiyac yoxdur)
+   ========================================= */
+
+const cartKey = 'kabro_cart_lite';
+
+// Helper: Format Price
+const formatPrice = (price) => parseFloat(price).toFixed(2) + ' ₼';
+
+// Helper: Get Cart
+function getCart() { return JSON.parse(localStorage.getItem(cartKey)) || []; }
+function saveCart(cart) { localStorage.setItem(cartKey, JSON.stringify(cart)); }
+
+// Update Badge
+function updateBadge() {
+    const cart = getCart();
+    const badge = document.getElementById('cart-badge');
+    if(badge) badge.innerText = cart.reduce((acc, item) => acc + item.qty, 0);
+}
+
+// 1. Ana Səhifəni Yüklə
+const productList = document.getElementById('product-list');
+if (productList) {
+    productList.innerHTML = products.map(p => `
+        <div class="card" onclick="window.location.href='product.html?id=${p.id}'">
+            <img src="${p.image}" class="card-img" alt="${p.name}">
+            <div class="card-body">
+                <div class="card-title">${p.name}</div>
+                <div class="card-price">${formatPrice(p.price)}</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// 2. Məhsul Detalı
+const detailImg = document.getElementById('detail-img');
+if (detailImg) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    const product = products.find(p => p.id == id);
+
+    if (product) {
+        document.getElementById('detail-img').src = product.image;
+        document.getElementById('detail-title').innerText = product.name;
+        document.getElementById('detail-cat').innerText = product.category;
+        document.getElementById('detail-price').innerText = formatPrice(product.price);
+        document.getElementById('detail-desc').innerText = product.desc;
+
+        document.getElementById('add-to-cart').onclick = () => {
+            let cart = getCart();
+            let exist = cart.find(x => x.id == product.id);
+            if(exist) exist.qty++;
+            else cart.push({...product, qty: 1});
+            
+            saveCart(cart);
+            updateBadge();
+            alert('Səbətə əlavə olundu!');
+        };
+    } else {
+        document.body.innerHTML = "<h2 style='text-align:center; margin-top:50px;'>Məhsul tapılmadı</h2>";
+    }
+}
+
+// 3. Səbət & WhatsApp Sifariş
+const cartItems = document.getElementById('cart-items');
+if (cartItems) {
+    const cart = getCart();
+    let total = 0;
+
+    if (cart.length === 0) {
+        cartItems.innerHTML = '<p style="text-align:center; padding:20px;">Səbətiniz boşdur.</p>';
+        document.getElementById('checkout-btn').style.display = 'none';
+    } else {
+        cartItems.innerHTML = cart.map((item, index) => {
+            total += item.price * item.qty;
+            return `
+            <div class="cart-item">
+                <div>
+                    <b>${item.name}</b><br>
+                    <small>${formatPrice(item.price)} x ${item.qty}</small>
+                </div>
+                <button class="remove-btn" onclick="removeItem(${index})">Sil</button>
+            </div>`;
+        }).join('');
+        
+        document.getElementById('cart-total').innerText = formatPrice(total);
+        
+        // WhatsApp Link Generator
+        document.getElementById('checkout-btn').onclick = () => {
+            let msg = "Salam, Kabroshopaz-dan sifariş vermək istəyirəm:%0A";
+            cart.forEach(item => {
+                msg += `- ${item.name} (${item.qty} ədəd)%0A`;
+            });
+            msg += `%0A*Cəm: ${formatPrice(total)}*`;
+            
+            // Buraya öz nömrəni yaz (Məs: 994501234567)
+            const phone = "994500000000"; 
+            window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+            
+            // Sifarişdən sonra səbəti təmizləmək istəsən aşağıdakı sətri aktiv et:
+            // localStorage.removeItem(cartKey);
+        };
+    }
+}
+
+function removeItem(index) {
+    let cart = getCart();
+    cart.splice(index, 1);
+    saveCart(cart);
+    window.location.reload();
+}
+
+updateBadge();

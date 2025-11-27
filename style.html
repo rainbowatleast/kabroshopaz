@@ -1,0 +1,48 @@
+:root {
+    --primary: #f27a1a; /* Trendyol Narıncı */
+    --dark: #333;
+    --light: #fafafa;
+    --border: #e6e6e6;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+body { background: var(--light); color: var(--dark); padding-bottom: 60px; }
+a { text-decoration: none; color: inherit; }
+
+/* Header */
+header { background: #fff; padding: 15px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+.navbar { display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 24px; font-weight: bold; color: var(--primary); }
+.cart-icon { position: relative; font-size: 18px; }
+.badge { position: absolute; top: -8px; right: -10px; background: var(--primary); color: #fff; font-size: 10px; padding: 2px 5px; border-radius: 50%; }
+
+/* Grid */
+.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; margin-top: 20px; }
+
+/* Product Card */
+.card { background: #fff; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; transition: 0.3s; cursor: pointer; }
+.card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
+.card-img { width: 100%; height: 200px; object-fit: cover; }
+.card-body { padding: 10px; }
+.card-title { font-size: 14px; margin-bottom: 5px; height: 38px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.card-price { color: var(--primary); font-weight: bold; font-size: 16px; }
+
+/* Detail Page */
+.detail-container { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px; background: #fff; padding: 20px; border-radius: 8px; }
+.detail-img { flex: 1; max-width: 400px; width: 100%; border-radius: 8px; }
+.detail-info { flex: 1; min-width: 300px; }
+
+/* Buttons */
+.btn { background: var(--primary); color: #fff; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; width: 100%; text-align: center; display: inline-block; transition: 0.2s; }
+.btn:hover { opacity: 0.9; }
+.btn-whatsapp { background: #25D366; margin-top: 10px; } /* WhatsApp yaşılı */
+
+/* Cart Item */
+.cart-item { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px; margin-bottom: 10px; border-radius: 8px; border: 1px solid var(--border); }
+.remove-btn { color: #ff4d4f; background: none; border: none; font-weight: bold; cursor: pointer; }
+
+@media (max-width: 768px) {
+    .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .detail-container { flex-direction: column; }
+}

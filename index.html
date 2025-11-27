@@ -1,179 +1,24 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KABROSHOPAZ – Telefon Kılıfları</title>
-<style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f5f5;
-  }
-  /* Header */
-  header {
-    background: #ffffff;
-    padding: 15px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-  }
-  .logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #000;
-  }
-  .nav {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-  }
-  .nav a {
-    text-decoration: none;
-    color: #333;
-    font-size: 16px;
-  }
-  .nav a:hover {
-    color: #ff6600;
-  }
-  .cart-badge {
-    background: #ff6600;
-    color: #ffffff;
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-weight: bold;
-    text-decoration: none;
-  }
-  /* Hero */
-  .hero {
-    background: linear-gradient(to right, #ff6600, #ffa64d);
-    padding: 60px 20px;
-    color: white;
-    text-align: center;
-  }
-  .hero h1 {
-    font-size: 32px;
-    margin-bottom: 10px;
-  }
-  .hero p {
-    font-size: 18px;
-  }
-  /* Products */
-  .products {
-    padding: 25px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-  }
-  .product {
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-  .product img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 10px;
-  }
-  .product h3 {
-    margin-top: 10px;
-    font-size: 18px;
-  }
-  .product .price {
-    color: #ff6600;
-    font-weight: bold;
-    margin: 8px 0;
-  }
-  .product button {
-    background: #000;
-    color: #fff;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  .product button:hover {
-    background: #333;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kabroshopaz</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <div class="logo">KABROSHOPAZ</div>
-  <div class="nav">
-    <a href="index.html">Ana Səhifə</a>
-    <a href="#">Kategoriyalar</a>
-    <!-- The Əlaqə link now directs to the business's Instagram DM. Using ig.me link opens a direct message window -->
-    <a href="https://ig.me/kabroshopbaku" target="_blank">Instagram DM</a>
-    <a href="cart.html" class="cart-badge">🛒 Səbət: <span id="cart-count">0</span></a>
-  </div>
-</header>
-<div class="hero">
-  <h1>Telefon Kılıfları – Ucuz və Keyfiyyətli</h1>
-  <!-- Added a call‑to‑action: visitors can contact via Instagram DM directly -->
-  <p>Bütün modellər üçün kılıflar — aşağı qiymətlərlə! <a href="https://ig.me/kabroshopbaku" style="color: #ffffff; text-decoration: underline;" target="_blank">DM ilə sifariş verin</a></p>
-</div>
-  <div class="products">
-    <!-- Product 1 -->
-    <div class="product">
-      <!-- Using placeholder images hosted on via.placeholder.com to avoid missing image errors -->
-      <img src="https://via.placeholder.com/300x200.png?text=Kabro+1" alt="iPhone 11 Kılıf">
-      <h3>iPhone 11 Kılıf</h3>
-      <div class="price">4 AZN</div>
-      <button onclick="addToCart('iPhone 11 Kılıf', 4, 'https://via.placeholder.com/300x200.png?text=Kabro+1')">Səbətə at</button>
+    <header>
+        <div class="container navbar">
+            <a href="index.html" class="logo">Kabroshopaz</a>
+            <a href="cart.html" class="cart-icon">🛒 <span class="badge" id="cart-badge">0</span></a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2 style="margin: 20px 0;">Vitrindəki Məhsullar</h2>
+        <div id="product-list" class="product-grid"></div>
     </div>
-    <!-- Product 2 -->
-    <div class="product">
-      <img src="https://via.placeholder.com/300x200.png?text=Kabro+2" alt="Samsung A52 Kılıf">
-      <h3>Samsung A52 Kılıf</h3>
-      <div class="price">3 AZN</div>
-      <button onclick="addToCart('Samsung A52 Kılıf', 3, 'https://via.placeholder.com/300x200.png?text=Kabro+2')">Səbətə at</button>
-    </div>
-    <!-- Product 3 -->
-    <div class="product">
-      <img src="https://via.placeholder.com/300x200.png?text=Kabro+3" alt="Redmi Note 10 Kılıf">
-      <h3>Redmi Note 10 Kılıf</h3>
-      <div class="price">3.50 AZN</div>
-      <button onclick="addToCart('Redmi Note 10 Kılıf', 3.50, 'https://via.placeholder.com/300x200.png?text=Kabro+3')">Səbətə at</button>
-    </div>
-  </div>
-<script>
-// Get cart from localStorage
-function getCart() {
-  return JSON.parse(localStorage.getItem('cart') || '[]');
-}
-// Save cart to localStorage
-function saveCart(cart) {
-  localStorage.setItem('cart', JSON.stringify(cart));
-}
-// Update cart count in header
-function updateCartCount() {
-  const cart = getCart();
-  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-  document.getElementById('cart-count').textContent = count;
-}
-// Add item to cart
-function addToCart(name, price, img) {
-  let cart = getCart();
-  const existing = cart.find(item => item.name === name);
-  if (existing) {
-    existing.quantity += 1;
-  } else {
-    cart.push({ name: name, price: price, img: img, quantity: 1 });
-  }
-  saveCart(cart);
-  updateCartCount();
-  alert('Məhsul səbətə əlavə olundu!');
-}
-// Initialize cart count on page load
-updateCartCount();
-</script>
+
+    <script src="script.js"></script>
 </body>
 </html>

@@ -1,226 +1,35 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Səbət – KABROSHOPAZ</title>
-<style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f5f5;
-  }
-  header {
-    background: #ffffff;
-    padding: 15px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-  }
-  .logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #000;
-  }
-  .nav {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-  }
-  .nav a {
-    text-decoration: none;
-    color: #333;
-    font-size: 16px;
-  }
-  .nav a:hover {
-    color: #ff6600;
-  }
-  .cart-badge {
-    background: #ff6600;
-    color: #ffffff;
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-weight: bold;
-    text-decoration: none;
-  }
-  .container {
-    padding: 20px;
-    max-width: 800px;
-    margin: auto;
-  }
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .cart-item {
-    display: flex;
-    align-items: center;
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    margin-bottom: 15px;
-  }
-  .cart-item img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-right: 15px;
-  }
-  .cart-item .name {
-    flex: 1;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  .cart-item .price {
-    color: #ff6600;
-    font-weight: bold;
-    margin-right: 20px;
-  }
-  .quantity-controls {
-    display: flex;
-    align-items: center;
-  }
-  .quantity-controls button {
-    background: #000;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    margin: 0 5px;
-    cursor: pointer;
-  }
-  .quantity-controls button:hover {
-    background: #333;
-  }
-  .remove {
-    background: red;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-  }
-  .total {
-    font-size: 20px;
-    font-weight: bold;
-    text-align: right;
-    margin-top: 20px;
-  }
-  .actions {
-    text-align: center;
-    margin-top: 30px;
-  }
-  .actions a {
-    display: inline-block;
-    margin: 0 10px;
-    padding: 12px 20px;
-    background: #ff6600;
-    color: white;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  .actions a:hover {
-    background: #e65c00;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Səbət</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <div class="logo">KABROSHOPAZ</div>
-  <div class="nav">
-    <a href="index.html">Ana Səhifə</a>
-    <a href="cart.html" class="cart-badge">🛒 Səbət: <span id="cart-count">0</span></a>
-  </div>
-</header>
-<div class="container">
-  <h2>Səbət</h2>
-  <div id="cart-items"></div>
-  <div class="total" id="cart-total"></div>
-  <div class="actions">
-    <a href="index.html">Məhsula davam et</a>
-    <!-- You can create a checkout page and link below if needed -->
-    <a href="checkout.html">Sifarişi tamamlamaq</a>
-  </div>
-</div>
-<script>
-function getCart() {
-  return JSON.parse(localStorage.getItem('cart') || '[]');
-}
-function saveCart(cart) {
-  localStorage.setItem('cart', JSON.stringify(cart));
-}
-function updateCartCount() {
-  const cart = getCart();
-  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-  document.getElementById('cart-count').textContent = count;
-}
-function renderCart() {
-  const cart = getCart();
-  const container = document.getElementById('cart-items');
-  const totalEl = document.getElementById('cart-total');
-  container.innerHTML = '';
-  if (cart.length === 0) {
-    container.innerHTML = '<p>Səbət boşdur.</p>';
-    totalEl.textContent = '';
-    document.querySelector('.actions a[href="checkout.html"]').style.display = 'none';
-    return;
-  }
-  let total = 0;
-  cart.forEach((item, index) => {
-    total += item.price * item.quantity;
-    const itemEl = document.createElement('div');
-    itemEl.className = 'cart-item';
-    itemEl.innerHTML = `
-      <img src="${item.img}" alt="${item.name}">
-      <div class="name">${item.name}</div>
-      <div class="price">${item.price.toFixed(2)} AZN</div>
-      <div class="quantity-controls">
-        <button onclick="decrement(${index})">−</button>
-        <span>${item.quantity}</span>
-        <button onclick="increment(${index})">+</button>
-      </div>
-      <button class="remove" onclick="removeItem(${index})">Sil</button>
-    `;
-    container.appendChild(itemEl);
-  });
-  totalEl.textContent = 'Cəmi: ' + total.toFixed(2) + ' AZN';
-  document.querySelector('.actions a[href="checkout.html"]').style.display = 'inline-block';
-}
-function increment(i) {
-  const cart = getCart();
-  cart[i].quantity += 1;
-  saveCart(cart);
-  renderCart();
-  updateCartCount();
-}
-function decrement(i) {
-  const cart = getCart();
-  if (cart[i].quantity > 1) {
-    cart[i].quantity -= 1;
-  } else {
-    cart.splice(i, 1);
-  }
-  saveCart(cart);
-  renderCart();
-  updateCartCount();
-}
-function removeItem(i) {
-  const cart = getCart();
-  cart.splice(i, 1);
-  saveCart(cart);
-  renderCart();
-  updateCartCount();
-}
-// Initialize
-updateCartCount();
-renderCart();
-</script>
+    <header>
+        <div class="container navbar">
+            <a href="index.html" class="logo">Kabroshopaz</a>
+        </div>
+    </header>
+
+    <div class="container" style="max-width: 600px; margin-top: 30px;">
+        <h2>Sizin Səbətiniz</h2>
+        <div id="cart-items" style="margin-top: 20px;"></div>
+        
+        <div style="margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px;">
+            <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold;">
+                <span>Cəm:</span>
+                <span id="cart-total">0.00 ₼</span>
+            </div>
+            
+            <button id="checkout-btn" class="btn btn-whatsapp">
+                WhatsApp ilə Sifariş Et 📲
+            </button>
+            <a href="index.html" style="display:block; text-align:center; margin-top:15px; color:#888; font-size:14px;">Alış-verişə davam et</a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
