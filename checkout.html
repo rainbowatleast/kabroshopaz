@@ -155,7 +155,7 @@ function renderSummary() {
 }
 // Form submission
 const form = document.getElementById('checkout-form');
-form.addEventListener('submit', function(e) {
+form.addEventListener('submit', function (e) {
   e.preventDefault();
   // Get form values
   const name = document.getElementById('name').value;
@@ -163,26 +163,35 @@ form.addEventListener('submit', function(e) {
   const address = document.getElementById('address').value;
   const email = document.getElementById('email').value;
   const cart = getCart();
-  // Create order summary text
-  let orderText = `Yeni sifariş: %0A\n`;
+  // Build a human‑readable order summary using newline characters.
+  let orderText = `Yeni sifariş:\n`;
   cart.forEach(item => {
-    orderText += `• ${item.name} × ${item.quantity} = ${(item.price * item.quantity).toFixed(2)} AZN%0A`;
+    orderText += `• ${item.name} × ${item.quantity} = ${(item.price * item.quantity).toFixed(2)} AZN\n`;
   });
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
-  orderText += `%0AToplam: ${total} AZN%0A\nAd: ${name}%0ATelefon: ${phone}%0AÜnvan: ${encodeURIComponent(address)}%0A`;
+  orderText += `\nToplam: ${total} AZN\n`;
+  orderText += `Ad: ${name}\n`;
+  orderText += `Telefon: ${phone}\n`;
+  orderText += `Ünvan: ${address}\n`;
   if (email) {
-    orderText += `Email: ${email}%0A`;
+    orderText += `Email: ${email}\n`;
   }
-  // Send order via Instagram DM. We build an ig.me link using the business Instagram handle
-  // and append the order summary as the pre‑filled message. See documentation on ig.me links
-  // for details on formatting: https://ig.me/yourusername?text=Your%20custom%20message
+  // Encode the entire message for use in a URL
   const encodedText = encodeURIComponent(orderText);
-  // Extract just the username from the provided Instagram URL. Here we hardcode the handle
-  // kabroshopbaku as supplied by the business owner.
+  // Construct the Instagram DM link. Using the ig.me domain opens a DM window and
+  // supports a pre‑filled message via the text query parameter. See docs: https://ig.me/yourusername?text=Your%20custom%20message
   const igDmUrl = `https://ig.me/kabroshopbaku?text=${encodedText}`;
-  window.open(igDmUrl, '_blank');
-  // Show success message
-  document.getElementById('order-success').style.display = 'block';
+  // Attempt to open a new tab/window. Some browsers may block pop‑ups, so we also
+  // provide a clickable link in the success message below as a fallback.
+  try {
+    window.open(igDmUrl, '_blank');
+  } catch (err) {
+    // ignore
+  }
+  // Show success message with clickable link
+  const successBox = document.getElementById('order-success');
+  successBox.innerHTML = `Sifarişiniz qeydə alındı! <a href="${igDmUrl}" target="_blank">DM göndər</a>`;
+  successBox.style.display = 'block';
   // Clear cart and reset form
   clearCart();
   form.reset();
