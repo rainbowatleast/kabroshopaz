@@ -43,11 +43,12 @@
   .cart-badge {
     background: #ff6600;
     color: #ffffff;
-    padding: 8px 14px;
+    padding: 8px 12px;
     border-radius: 8px;
     font-weight: bold;
+    text-decoration: none;
   }
-  /* Hero section */
+  /* Hero */
   .hero {
     background: linear-gradient(to right, #ff6600, #ffa64d);
     padding: 60px 20px;
@@ -61,7 +62,7 @@
   .hero p {
     font-size: 18px;
   }
-  /* Product grid */
+  /* Products */
   .products {
     padding: 25px;
     display: grid;
@@ -107,65 +108,57 @@
 <header>
   <div class="logo">KABROSHOPAZ</div>
   <div class="nav">
-    <a href="#">Ana Səhifə</a>
+    <a href="index.html">Ana Səhifə</a>
     <a href="#">Kategoriyalar</a>
     <a href="#">Əlaqə</a>
     <a href="cart.html" class="cart-badge">🛒 Səbət: <span id="cart-count">0</span></a>
   </div>
 </header>
-
 <div class="hero">
   <h1>Telefon Kılıfları – Ucuz və Keyfiyyətli</h1>
   <p>Bütün modellər üçün kılıflar — aşağı qiymətlərlə!</p>
 </div>
-
 <div class="products">
   <!-- Product 1 -->
   <div class="product">
-    <img src="https://i.imgur.com/YXqY8gD.png" alt="iPhone 11 Kılıf">
+    <img src="https://via.placeholder.com/300x200.png?text=Kabro+1" alt="iPhone 11 Kılıf">
     <h3>iPhone 11 Kılıf</h3>
     <div class="price">4 AZN</div>
-    <button onclick="addToCart('iPhone 11 Kılıf', 4, 'https://i.imgur.com/YXqY8gD.png')">Səbətə at</button>
+    <button onclick="addToCart('iPhone 11 Kılıf', 4, 'https://via.placeholder.com/300x200.png?text=Kabro+1')">Səbətə at</button>
   </div>
-
   <!-- Product 2 -->
   <div class="product">
-    <img src="https://i.imgur.com/5b9Vjfw.png" alt="Samsung A52 Kılıf">
+    <img src="https://via.placeholder.com/300x200.png?text=Kabro+2" alt="Samsung A52 Kılıf">
     <h3>Samsung A52 Kılıf</h3>
     <div class="price">3 AZN</div>
-    <button onclick="addToCart('Samsung A52 Kılıf', 3, 'https://i.imgur.com/5b9Vjfw.png')">Səbətə at</button>
+    <button onclick="addToCart('Samsung A52 Kılıf', 3, 'https://via.placeholder.com/300x200.png?text=Kabro+2')">Səbətə at</button>
   </div>
-
   <!-- Product 3 -->
   <div class="product">
-    <img src="https://i.imgur.com/4bfn9aN.png" alt="Redmi Note 10 Kılıf">
+    <img src="https://via.placeholder.com/300x200.png?text=Kabro+3" alt="Redmi Note 10 Kılıf">
     <h3>Redmi Note 10 Kılıf</h3>
     <div class="price">3.50 AZN</div>
-    <button onclick="addToCart('Redmi Note 10 Kılıf', 3.50, 'https://i.imgur.com/4bfn9aN.png')">Səbətə at</button>
+    <button onclick="addToCart('Redmi Note 10 Kılıf', 3.50, 'https://via.placeholder.com/300x200.png?text=Kabro+3')">Səbətə at</button>
   </div>
 </div>
-
 <script>
-// Read cart from localStorage
+// Get cart from localStorage
 function getCart() {
   return JSON.parse(localStorage.getItem('cart') || '[]');
 }
-
 // Save cart to localStorage
 function saveCart(cart) {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
-
-// Update cart count in nav
+// Update cart count in header
 function updateCartCount() {
   const cart = getCart();
-  document.getElementById('cart-count').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+  document.getElementById('cart-count').textContent = count;
 }
-
-// Add to cart function
+// Add item to cart
 function addToCart(name, price, img) {
   let cart = getCart();
-  // Check if item already exists
   const existing = cart.find(item => item.name === name);
   if (existing) {
     existing.quantity += 1;
@@ -176,7 +169,6 @@ function addToCart(name, price, img) {
   updateCartCount();
   alert('Məhsul səbətə əlavə olundu!');
 }
-
 // Initialize cart count on page load
 updateCartCount();
 </script>
