@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>KabroShop | Online Satış</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* HEADER */
+    header {
+      border-bottom: 1px solid #1f2937;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+      background: rgba(15, 23, 42, 0.92);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+    }
+
+    .logo {
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      font-size: 1.1rem;
+    }
+
+    .logo span {
+      color: #38bdf8;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+    }
+
+    .cart-badge {
+      background: #22c55e;
+      color: #022c22;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 32px 16px 20px;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .hero-title span {
+      color: #38bdf8;
+    }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      color: #9ca3af;
+      max-width: 500px;
+      margin: 0 auto 16px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      border-radius: 999px;
+      border: 1px solid #38bdf8;
+      color: #38bdf8;
+      padding: 4px 10px;
+      margin-bottom: 12px;
+    }
+
+    /* FILTER BAR */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid #1f2937;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 160px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #020617;
+      border-radius: 999px;
+      padding: 6px 10px;
+      border: 1px solid #1f2937;
+    }
+
+    .search-box input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #e5e7eb;
+      font-size: 0.9rem;
+      width: 100%;
+    }
+
+    .pill-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid #1f2937;
+      padding: 4px 10px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: 0.2s;
+      background: #020617;
+      color: #e5e7eb;
+    }
+
+    .pill.active {
+      border-color: #38bdf8;
+      background: #0b1120;
+      color: #e0f2fe;
+    }
+
+    /* PRODUCTS GRID */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .product-card {
+      background: #020617;
+      border-radius: 18px;
+      border: 1px solid #1f2937;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(15, 23, 42, 0.9);
+      border-color: #38bdf8;
+    }
+
+    .product-img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: linear-gradient(145deg, #0f172a, #020617);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: #1d4ed8;
+    }
+
+    .product-body {
+      padding: 12px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .product-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .product-tag {
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+
+    .product-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+    }
+
+    .price {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #22c55e;
+    }
+
+    .old-price {
+      font-size: 0.75rem;
+      text-decoration: line-through;
+      color: #6b7280;
+      margin-left: 6px;
+    }
+
+    .btn {
+      border: none;
+      outline: none;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: #38bdf8;
+      color: #020617;
+      transition: 0.16s;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .badge-small {
+      font-size: 0.65rem;
+      border-radius: 999px;
+      padding: 2px 7px;
+      background: #0f172a;
+      border: 1px solid #1f2937;
+      color: #9ca3af;
+    }
+
+    .badge-small.hot {
+      border-color: #f97316;
+      color: #fed7aa;
+    }
+
+    .badge-small.new {
+      border-color: #22c55e;
+      color: #bbf7d0;
+    }
+
+    /* INFO SECTION */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .info-card {
+      background: #020617;
+      border-radius: 18px;
+      border: 1px solid #1f2937;
+      padding: 14px;
+      font-size: 0.85rem;
+      color: #9ca3af;
+    }
+
+    .info-card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #e5e7eb;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid #1f2937;
+      padding: 18px 16px 26px;
+      font-size: 0.75rem;
+      color: #6b7280;
+      text-align: center;
+    }
+
+    footer a {
+      color: #38bdf8;
+    }
+
+    @media (max-width: 600px) {
+      .hero-title {
+        font-size: 1.6rem;
+      }
+      .nav-right {
+        font-size: 0.8rem;
+      }
+      .hero {
+        padding-top: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="logo">Kabro<span>Shop</span></div>
+      <div class="nav-right">
+        <span style="color:#9ca3af;font-size:0.8rem;">DM ilə sifariş • Instagram: @kabroshop</span>
+        <span class="cart-badge">Sepet: <span id="cart-count">0</span> ürün</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-badge">Yeni kolleksiya • 2025</div>
+      <h1 class="hero-title">
+        Telefonunu <span>stylə</span> salan kabrolar
+      </h1>
+      <p class="hero-sub">
+        Shockproof, şəffaf, rəngli və daha çoxu. Saytdan modeli seç, 
+        <b>DM-də yaz</b>, qalan hər şeyi biz həll edək.
+      </p>
+    </section>
+
+    <!-- FILTER BAR -->
+    <section class="filter-bar">
+      <div class="search-box">
+        <span>🔍</span>
+        <input id="search-input" placeholder="Model, rəng, telefon adı axtar..." />
+      </div>
+      <div class="pill-filters">
+        <button class="pill active" data-filter="hepsi">Hamısı</button>
+        <button class="pill" data-filter="şəffaf">Şəffaf</button>
+        <button class="pill" data-filter="rəngli">Rəngli</button>
+        <button class="pill" data-filter="premium">Premium</button>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="products" id="product-list">
+      <!-- ÜRÜN 1 -->
+      <article class="product-card" data-tags="şəffaf iphone 13 pro">
+        <div class="product-img">📱</div>
+        <div class="product-body">
+          <div class="product-name">iPhone 13 Pro Şəffaf Kabro</div>
+          <div class="product-tag">Şəffaf • Shockproof • Sararmaya davamlı</div>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:4px;">
+            <span class="badge-small hot">Çox satılan</span>
+            <span class="badge-small">iPhone 13 Pro</span>
+          </div>
+          <div class="product-bottom">
+            <div>
+              <span class="price">7 AZN</span>
+              <span class="old-price">10 AZN</span>
+            </div>
+            <button class="btn" onclick="addToCart('iPhone 13 Pro Şəffaf Kabro')">Səbətə at</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- ÜRÜN 2 -->
+      <article class="product-card" data-tags="rəngli samsung a52">
+        <div class="product-img">🎨</div>
+        <div class="product-body">
+          <div class="product-name">Samsung A52 Pastel Rəng Kabro</div>
+          <div class="product-tag">Mat • Pastel mavi • Barmaq izi saxlamır</div>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:4px;">
+            <span class="badge-small new">Yeni</span>
+            <span class="badge-small">Samsung A52</span>
+          </div>
+          <div class="product-bottom">
+            <div>
+              <span class="price">8 AZN</span>
+            </div>
+            <button class="btn" onclick="addToCart('Samsung A52 Pastel Kabro')">Səbətə at</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- ÜRÜN 3 -->
+      <article class="product-card" data-tags="premium magsafe iphone 14">
+        <div class="product-img">🧲</div>
+        <div class="product-body">
+          <div class="product-name">iPhone 14 MagSafe Premium Kabro</div>
+          <div class="product-tag">MagSafe dəstəyi • Qalın kənarlı qoruma</div>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:4px;">
+            <span class="badge-small hot">Limitli stok</span>
+            <span class="badge-small">Premium</span>
+          </div>
+          <div class="product-bottom">
+            <div>
+              <span class="price">15 AZN</span>
+              <span class="old-price">18 AZN</span>
+            </div>
+            <button class="btn" onclick="addToCart('iPhone 14 MagSafe Kabro')">Səbətə at</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- ÜRÜN 4 -->
+      <article class="product-card" data-tags="şəffaf rəngli xiaomi redmi">
+        <div class="product-img">✨</div>
+        <div class="product-body">
+          <div class="product-name">Xiaomi Redmi Glitter Kabro</div>
+          <div class="product-tag">Parıltılı • Şəffaf • Qızlar üçün favorit</div>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:4px;">
+            <span class="badge-small new">Trend</span>
+            <span class="badge-small">Redmi seriyası</span>
+          </div>
+          <div class="product-bottom">
+            <div>
+              <span class="price">9 AZN</span>
+            </div>
+            <button class="btn" onclick="addToCart('Xiaomi Redmi Glitter Kabro')">Səbətə at</button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- INFO SECTION -->
+    <section class="info-grid">
+      <div class="info-card">
+        <div class="info-card-title">Necə sifariş verim?</div>
+        <p>
+          Saytdan bəyəndiyin modeli seç, adını yadda saxla və 
+          <b>Instagram DM</b>-də bizə yaz:
+          <br /><br />
+          <b>• Telefon modeli<br />
+          • Kabronun adı</b>
+          <br /><br />
+          Sənə cavab yazıb təsdiqləyirik.
+        </p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">Çatdırılma</div>
+        <p>
+          Bakı daxili müəyyən ünvanlara çatdırılma mümkündür. 
+          Metro çıxışında təhvil də var. 
+          Rayonlar üçün poçtla göndəriş mümkündür (əlavə ödənişlə).
+        </p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">Ödəniş</div>
+        <p>
+          Hal-hazırda yalnız <b>nağd</b> və ya 
+          <b>kartdan karta</b> ödəniş keçərlidir. 
+          Sayt üzərindən birbaşa online ödəniş yoxdur, 
+          amma DM-də hamısını izah edirik.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> KabroShop • Bütün hüquqlar qorunur.
+    <br />
+    Sifariş üçün: <a href="https://instagram.com/" target="_blank">@kabroshop</a>
+  </footer>
+
+  <script>
+    // Yıl otomatik
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Sepet sayacı
+    let cartCount = 0;
+    function addToCart(productName) {
+      cartCount++;
+      document.getElementById("cart-count").textContent = cartCount;
+      alert(productName + " səbətə əlavə olundu! Sifariş üçün DM yazmağı unutma 😎");
+    }
+
+    // Filtre butonları
+    const pills = document.querySelectorAll(".pill");
+    const products = document.querySelectorAll(".product-card");
+    const searchInput = document.getElementById("search-input");
+
+    pills.forEach(pill => {
+      pill.addEventListener("click", () => {
+        pills.forEach(p => p.classList.remove("active"));
+        pill.classList.add("active");
+        filterProducts();
+      });
+    });
+
+    searchInput.addEventListener("input", filterProducts);
+
+    function filterProducts() {
+      const activeFilter = document.querySelector(".pill.active").dataset.filter;
+      const query = searchInput.value.toLowerCase();
+
+      products.forEach(card => {
+        const tags = card.dataset.tags.toLowerCase();
+        const inSearch = tags.includes(query);
+        const inFilter =
+          activeFilter === "hepsi" || tags.includes(activeFilter);
+
+        if (inSearch && inFilter) {
+          card.style.display = "flex";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    }
+  </script>
+</body>
+</html>
